@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Genre>
+@{
+    ViewData["Title"] = "Genre";
+}
+<h2>
+    <i class="bi bi-film"></i>
+    Geners
+</h2>
+
+<hr />
+
+<a class="btn btn-primary" asp-action="Create">
+    <i class="bi bi-plus-lg"></i>Add Genre
+</a>
+
+<div class="mt-4">
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning" role="alert">
+            <i class="bi bi-exclamation-triangle"></i>
+            No Genre found !
+        </div>
+    }
+
+    else
+    {
+
+        @foreach (var genre in Model)
+        {
+            <div class="col-12">
+                <div class="card mb-3">
+                    <div class="row no-gutters">
+                        <div class="col-md-10">
+                            <div class="card-body d-flex justify-content-between h-100">
+                                <div>
+                                    <h6 class="text-secondary">@genre.Name</h6>
+                                </div>
+                                <div>
+                                    <a asp-action="Edit" asp-route-id="@genre.Id" class="btn btn-outline-primary">
+                                        <i class="bi bi-pencil"></i>
+                                        Edit
+                                    </a>
+                                    <a href="javascript:;" class="btn btn-danger js-delete" data-url="Genre/Delete/@genre.Id">
+                                        <i class="bi bi-trash"></i>
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+
+    }
+</div>

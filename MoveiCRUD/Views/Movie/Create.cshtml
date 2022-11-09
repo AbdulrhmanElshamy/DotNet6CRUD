@@ -1,0 +1,97 @@
+﻿@model MovieFormViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="row justify-content-between">
+    <div class="card col-md-6  ">
+        <div class="card-body">
+            <div class="">
+                <h5 class="text-primary card-title">
+                    Create movie
+                </h5>
+                <hr />
+            </div>
+            <section class="row justify-content-sm-center">
+                <div class="form-group col-12">
+                    <form asp-action="Create" method="post" enctype="multipart/form-data">
+                        <div>
+                            <label class="text-muted" asp-for="Title"></label>
+                            <input class="form-control" type="text" asp-for="Title" maxlength="250" />
+                            <span class="text-danger" asp-validation-for="Title"></span>
+                        </div>
+                        <div>
+                            <label class="text-muted" asp-for="Genreid"></label>
+                            <select class="form-control" asp-for="Genreid" asp-items="@(new SelectList(Model.Genres,"Id","Name"))">
+                                <option>Select Genre</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="Genreid"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label class="text-muted" asp-for="year"></label>
+                                <input class="form-control Year" type="number" asp-for="year" value=""/>
+                                <span class="text-danger" asp-validation-for="year"></span>
+                            </div>
+                            <div class="col">
+                                <label class="text-muted" asp-for="Rate"></label>
+                                <input class="form-control" type="number" asp-for="Rate" value="" />
+                                <span class="text-danger" asp-validation-for="Rate"></span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-muted" asp-for="StoreLine"></label>
+                            <textarea class="form-control" asp-for="StoreLine"> </textarea>
+                            <span class="text-danger" asp-validation-for="StoreLine"></span>
+                        </div>
+                        <div>
+                            <label class="text-muted" asp-for="File"></label>
+                            <input class="form-control" type="file" asp-for="File" accept=".png,.jpeg,.jpg" id="Poster" />
+                            <span class="text-danger" asp-validation-for="File"></span>
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary" asp-action="Create">
+                                <i class="bi bi-check"></i>Create
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="bi bi-x"></i>Cansle
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="card col-4 poster  d-none" id="poster-container">
+        <img class="img-fluid" src="" />
+    </div>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+  
+
+        $(document).ready(function () {
+            $('#Poster').on('change', function () {
+                var selectedFile = $(this).val().split('\\').pop();
+                $(this).siblings('label').text(selectedFile);
+                var posterContainer = $('#poster-container');
+                var image = window.URL.createObjectURL(this.files[0]);
+                posterContainer.removeClass('d-none');
+                posterContainer.find('img').attr('src', image);
+            });
+            $('#year').focus(function () {
+                console.log("Done");
+            })
+            $('#year').datepicker({
+                format: 'yyyy',
+                viewMode: 'years',
+                minViewMode: 'years',
+                autoclose: true,
+                startDate: new Date('1950-01-01'),
+                endDate: new Date()
+            });
+        });
+    </script>
+
+}
